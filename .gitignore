@@ -1,0 +1,50 @@
+# ══════════════════════════════════════════════
+# 🔐 SENSITIVE: AI assistant & local configs
+# NEVER commit these — they may contain tokens!
+# ══════════════════════════════════════════════
+.continue/
+.continue/**
+
+# Local config files that may contain tokens/API keys
+config.yaml
+config.yml
+*.local.yaml
+*.local.yml
+secrets.yaml
+secrets.yml
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# ══════════════════════════════════════════════
+# 🔑 Credentials & secrets patterns
+# ══════════════════════════════════════════════
+**/credentials.json
+**/service-account*.json
+**/*token*.json
+**/*secret*
+**/*password*
+
+# ══════════════════════════════════════════════
+# 📬 Postman — environments contain real tokens!
+# Only .example.json files are safe to commit
+# ══════════════════════════════════════════════
+postman/environments/*.json
+!postman/environments/*.example.json
+
+# ══════════════════════════════════════════════
+# 📊 Newman reports (generated files)
+# ══════════════════════════════════════════════
+newman/
+reports/
+
+# ══════════════════════════════════════════════
+# 💻 OS / IDE
+# ══════════════════════════════════════════════
+.DS_Store
+.idea/
+.vscode/settings.json
+*.log
+node_modules/
