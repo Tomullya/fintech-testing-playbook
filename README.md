@@ -16,8 +16,8 @@ places in card-wallet where the same idea is implemented and tested.
 
 | # | Area | Status |
 |---|---|---|
-| 01 | Card payment: authorisation, clearing, settlement, reversal, refund, chargeback | coming soon |
-| 02 | Accounting for testers: double entry, ledgers, posting rules, reconciliation, safeguarding | coming soon |
+| 01 | [Card payment](areas/01-card-payment/en.md): authorisation, clearing, settlement, reversal, refund, chargeback | ✅ ready |
+| 02 | [Accounting for testers](areas/02-accounting/en.md): double entry, ledgers, posting rules, reconciliation, safeguarding | ✅ ready |
 | 03 | Money: ledger, reconciliation, rounding, fees, FX | coming soon |
 | 04 | Card lifecycle | coming soon |
 | 05 | Transfers: SEPA, instant payments, idempotency, cut-off times | coming soon |
