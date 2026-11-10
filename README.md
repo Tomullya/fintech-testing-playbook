@@ -24,8 +24,8 @@ places in card-wallet where the same idea is implemented and tested.
 | 06 | [Limits, fraud and AML](areas/06-limits-fraud-aml/en.md) | ✅ ready |
 | 07 | [Onboarding and KYC](areas/07-onboarding-kyc/en.md) | ✅ ready |
 | 08 | [Regulation for testers: PSD2 / SCA / 3-D Secure, PCI DSS, GDPR](areas/08-regulation/en.md) | ✅ ready |
-| 09 | Test data: test cards, Luhn, BIN, IBAN | coming soon |
-| 10 | Fintech QA interview questions | coming soon |
+| 09 | [Test data: test cards, Luhn, BIN, IBAN](areas/09-test-data/en.md) | ✅ ready |
+| 10 | [Fintech QA interview questions (30 with model answers)](areas/10-interview-questions/en.md) | ✅ ready |
 
 Terms: [glossary](glossary.md).
 
