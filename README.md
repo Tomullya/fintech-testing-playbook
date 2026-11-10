@@ -20,16 +20,18 @@ places in card-wallet where the same idea is implemented and tested.
 | 02 | [Accounting for testers](areas/02-accounting/en.md): double entry, ledgers, posting rules, reconciliation, safeguarding | ✅ ready |
 | 03 | [Money: balances, rounding, fees, FX](areas/03-money/en.md) | ✅ ready |
 | 04 | [Card lifecycle: card data, statuses, reissue, tokens](areas/04-card-lifecycle/en.md) | ✅ ready |
-| 05 | [Transfers: SEPA, instant payments, R-transactions, cut-off times](areas/05-transfers/en.md) | ✅ ready |
+| 05 | [Transfers: SEPA, instant payments, R-transactions, idempotency, cut-off times](areas/05-transfers/en.md) | ✅ ready |
 | 06 | [Limits, fraud and AML](areas/06-limits-fraud-aml/en.md) | ✅ ready |
 | 07 | [Onboarding and KYC](areas/07-onboarding-kyc/en.md) | ✅ ready |
 | 08 | [Regulation for testers: PSD2 / SCA / 3-D Secure, PCI DSS, GDPR](areas/08-regulation/en.md) | ✅ ready |
 | 09 | [Test data: test cards, Luhn, BIN, IBAN](areas/09-test-data/en.md) | ✅ ready |
-| 10 | [Fintech QA interview questions (30 with model answers)](areas/10-interview-questions/en.md) | ✅ ready |
+| 10 | [Fintech QA interview questions](areas/10-interview-questions/en.md) (30 with model answers) | ✅ ready |
 
 Terms: [glossary](glossary.md).
 
 ## How every area is built
+
+Areas 01–09 follow the same structure (area 10 is a set of questions with model answers):
 
 1. **How it works** — plain words, a diagram, an example with numbers
 2. **Participants and money flows** — who owes whom what, and when

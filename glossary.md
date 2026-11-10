@@ -99,7 +99,7 @@ Key terms used in the areas.
 | Ledger balance | Учётный баланс | Balance of posted transactions only |
 | Liability | Обязательство | What the company owes others, e.g. customer e-money |
 | Liability shift | Перенос ответственности | Fraud loss moves from merchant to issuer, e.g. after 3-D Secure |
-| Live PAN | Реальный PAN | Real card number; banned in pre-production (PCI DSS 6.5.5) |
+| Live PAN | Реальный PAN | Real card number; not used in pre-production unless that environment is in the CDE and protected like it (PCI DSS 6.5.5) |
 | Liveness detection | Проверка живости (liveness) | Check that a live person is present, not a photo, video or mask |
 | Lost update | Потерянное обновление | Two parallel writes where one overwrites the other |
 | Luhn algorithm (mod 10) | Алгоритм Луна (mod 10) | Check-digit method for PANs; catches single-digit errors and most adjacent swaps |

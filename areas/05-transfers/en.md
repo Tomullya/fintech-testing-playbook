@@ -1,4 +1,4 @@
-# Transfers: SEPA, instant payments, idempotency, cut-off times
+# Transfers: SEPA, instant payments, R-transactions, idempotency, cut-off times
 
 A bank transfer looks simple: an IBAN, a name and an amount. Underneath there are two schemes
 with different clocks: the standard SEPA credit transfer works on banking business days and
@@ -82,7 +82,7 @@ screening are covered in [area 06](../06-limits-fraud-aml/en.md).
 ### IBAN, BIC and the end-to-end ID
 
 - **IBAN (International Bank Account Number)** identifies one payment account; its format is set
-  by ISO (ISO 13616). Validating it is covered in area 09 (test data).
+  by ISO (ISO 13616). Validating it is covered in [Test data](../09-test-data/en.md).
 - **BIC (Business Identifier Code)** identifies a PSP. Since 1 February 2016 (cross-border) PSPs
   must not require customers to give the BIC: the IBAN is enough (SEPA Regulation Article 5(7)).
 - **End-to-end ID** (`EndToEndId`, up to 35 characters) is the payer's own reference. It travels

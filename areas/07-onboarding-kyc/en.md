@@ -116,8 +116,9 @@ provider, or a single-use, time-limited passcode.
 
 Onboarding collects documents, face images and addresses. A face image processed to identify a person
 is biometric data — a special category under GDPR. Collect only what the CDD policy needs (data
-minimisation) and keep CDD records for five years after the relationship ends (AMLD Article 40),
-then delete unless national law says otherwise. Details: [area 08 (regulation: GDPR)](../08-regulation/en.md).
+minimisation) and keep CDD records for five years after the relationship ends (AMLD Article 40;
+AMLR Article 77 from 10 July 2027; under the AMLD, Member States may extend this by up to five
+more years), then delete. Details: [area 08 (regulation: GDPR)](../08-regulation/en.md).
 
 ```mermaid
 sequenceDiagram

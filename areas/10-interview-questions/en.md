@@ -100,7 +100,8 @@ and channels beyond the main app.
   on 1 Dec 2029 at 00:00 UTC → declined as expired.
 - Repeat in local time if the rule is local; include a customer abroad.
 - Check what expiry changes: new authorisations decline, but holds and clearings of payments
-  authorised before expiry still process; the expired card frees a slot in the card count limit.
+  authorised before expiry still process; if a card count limit exists, decide whether an expired card still counts (in card-wallet it
+  frees a slot in the limit of 3 active cards).
 - Renewal: usually the same PAN with a new expiry and CVV2 (issuer rule), so saved-card payments
   with the old expiry may fail.
 
@@ -190,7 +191,8 @@ only the happy path.
 **Answer.**
 - Quote: the customer sees rate, amounts, fee and an expiry (e.g. 30 s). Confirm at 31 s →
   re-quote or reject; never execute silently at a new rate. Executed rate = quoted rate (quote id).
-- Rounding to the **target** exponent: EUR 100.00 → JPY 16,012; → BHD 41.234.
+- Rounding to the **target** exponent: EUR 100.00 → JPY 16,012 (at an illustrative rate
+  160.123); → BHD 41.234 (at 0.41234).
 - Round-trip exploit: buy EUR at 162 JPY, sell at 158. JPY 1 → EUR 0.01 → JPY 2 with half-up.
   Test that a round trip never gains; use a minimum amount or round in the company's favour.
 - Disclosure in the EU: card payment of PLN 430.00 from a EUR wallet; ECB rate 4.3000 → benchmark
@@ -355,8 +357,11 @@ the DST trap.
 - Tests: a table of variants — exact, transliteration, swapped first/last name, diacritics,
   truncation, case; scores at threshold − 0.01, threshold, + 0.01.
 - Re-screening of existing customers after every list update.
-- For SEPA instant transfers the IPR changes the model: PSPs check their own customers against EU
-  lists at least daily and on list changes, not each instant transfer.
+- Exception — SEPA instant credit transfers: the Instant Payments Regulation (EU) 2024/886, Art. 5d,
+  replaces transaction-by-transaction screening of payer and payee against EU targeted financial
+  sanctions lists with screening of the PSP's own customers at least once every calendar day and
+  immediately when the lists change. Test the daily and list-change runs, not a check inside the
+  10-second flow.
 - Use only fictional names in tests; the customer sees neutral texts (no tipping-off).
 
 **What the interviewer is checking:** you understand fuzzy matching is a trade-off and test the
@@ -375,7 +380,8 @@ threshold, not just "a known name is caught".
 - One alert per pattern, not one per payment; the alert links all payments.
 - **Tipping-off**: while an alert is open or a report is filed, app, push messages, API errors and
   support texts stay neutral ("processing"); no `AML_HOLD` code visible to the customer.
-- Records retained 5 years after the relationship ends.
+- Records retained 5 years after the relationship ends (AMLD Art. 40; AMLR Art. 77 from 10 July
+  2027); under the AMLD, Member States may extend this by up to 5 more years.
 
 **What the interviewer is checking:** that you test aggregate rules over time and the legal
 "silence" requirement.
@@ -466,7 +472,8 @@ into test cases.
 **Answer.**
 - GDPR gives a right to erasure (Art. 17), but Art. 17(3)(b) allows keeping data when the law
   requires it. AML rules require CDD and transaction records for 5 years after the relationship
-  ends (Member States may extend).
+  ends (AMLD Art. 40, AMLR Art. 77 from 10 July 2027; under the AMLD, Member States may extend by
+  up to 5 more years).
 - Account closed 2 years ago: marketing data deleted; KYC and transaction records kept,
   **restricted**, until 5 years after closure; the customer is told what was kept and why.
 - Retention job: records reaching their date at 00:00 UTC are removed exactly then — none a day
@@ -495,12 +502,12 @@ both sides of the retention date.
 - IBANs with correct check digits; dates and times picked for boundaries (month end, DST, holidays).
 - People: synthetic identities (Yuliia Testenko), fictional sanctions names, `@example.com`
   emails, vendor sandbox documents. Never a production copy.
-- Card numbers, Luhn, BIN and IBAN in detail: area 09 (test data).
+- Card numbers, Luhn, BIN and IBAN in detail: [Test data](../09-test-data/en.md).
 
 **What the interviewer is checking:** that you know test data is a compliance topic, not just
 convenience.
 
-**Read more:** [Card lifecycle](../04-card-lifecycle/en.md), [Regulation for testers](../08-regulation/en.md)
+**Read more:** [Test data](../09-test-data/en.md), [Card lifecycle](../04-card-lifecycle/en.md), [Regulation for testers](../08-regulation/en.md)
 
 ### 26. Which test design techniques do you use most in fintech? Give an example of each.
 

@@ -15,7 +15,7 @@ decision.
 |---|---|---|---|
 | Limits | Is the amount or count allowed? | Before the payment, synchronously | Approve or decline with a clear reason |
 | Fraud | Is this payment unauthorised or a scam? | Before the payment (real time), plus after it (case review) | Approve, decline, step-up, review |
-| AML/CFT | Is this money laundering or terrorist financing? Is anyone sanctioned? | Sanctions: before the payment. Monitoring: mostly after it, over many payments | Alert → investigation → report to the FIU, or close |
+| AML/CFT | Is this money laundering or terrorist financing? Is anyone sanctioned? | Sanctions: before the payment (exception: SEPA instant transfers, see below). Monitoring: mostly after it, over many payments | Alert → investigation → report to the FIU, or close |
 
 **AML/CFT** means anti-money laundering and countering the financing of terrorism.
 
@@ -45,7 +45,8 @@ A **limit** is a maximum the system enforces. Common kinds:
 - **Per card vs per account** — a family account with two cards can have a limit per card *and* a
   shared limit per account; both must be checked.
 - **Velocity limit** — a maximum *count* of events in a time window, for example no more than 3
-  card-not-present payments in 10 minutes, or 5 failed CVV attempts.
+  card-not-present payments in 10 minutes, or 5 failed CVV attempts (illustrative numbers; card-wallet
+  blocks the card after 3 wrong CVVs in a row, see [Card lifecycle](../04-card-lifecycle/en.md)).
 
 Every period limit needs three precise definitions, and most limit bugs come from one of them:
 
@@ -121,13 +122,22 @@ Every period limit needs three precise definitions, and most limit bugs come fro
   A match above the threshold is a **hit**; most hits are **false hits** that an analyst closes
   using date of birth, country or ID. A true match means the funds must not be made available —
   details differ by jurisdiction.
+- **Exception for SEPA instant credit transfers.** The Instant Payments Regulation (EU) 2024/886
+  (Article 5d) replaces transaction-by-transaction screening of payer and payee against EU
+  targeted financial sanctions lists with screening of the PSP's own customers at least once every
+  calendar day and immediately when the EU lists change; during the instant transfer itself, payer
+  and payee are not screened against these EU lists. So "screen before every payment" is not the
+  rule for this flow — test the daily and list-change runs instead. Details:
+  [Transfers](../05-transfers/en.md).
 - **Suspicious activity report (SAR / STR)** — when the firm suspects money laundering, its
   compliance officer reports to the national **Financial Intelligence Unit (FIU)**.
 - **Tipping-off prohibition** — the firm must not tell the customer or third parties that a report
   was made or that an analysis is under way (Article 73 of the AML Regulation). For testers: no screen,
   push message, e-mail, API error or support macro may reveal it.
 - **Record keeping** — keep CDD data and transaction records for 5 years after the end of the
-  relationship or the occasional transaction (Article 77 AMLR; FATF Recommendation 11).
+  relationship or the occasional transaction (today Article 40 of Directive (EU) 2015/849 (AMLD);
+  from 10 July 2027 Article 77 AMLR; FATF Recommendation 11). Under the AMLD, Member States may
+  allow or require keeping them for up to 5 more years.
 
 **EU law status.** Today the rules come from Directive (EU) 2015/849 (the 4th AML Directive, as
 amended), transposed into national laws. The single rulebook **Regulation (EU) 2024/1624 (AMLR)**
@@ -208,7 +218,7 @@ transfers up to GBP 85,000 per claim.
 
 ### Regulator / compliance
 
-- Failure to monitor, to report suspicions to the FIU, or to keep records for 5 years — fines and
+- Failure to monitor, to report suspicions to the FIU, or to keep records for the retention period — fines and
   restrictions from the AML supervisor.
 - **Tipping-off** through a message or an API error — a legal breach, and it can destroy an investigation.
 - Making funds available to a sanctioned person — a sanctions breach; penalties differ by country.

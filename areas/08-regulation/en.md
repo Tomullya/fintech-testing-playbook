@@ -171,7 +171,8 @@ device id, transaction history.
 - **Erasure vs AML:** Art. 17(3)(b) allows keeping data when a legal obligation requires it.
   The anti-money-laundering directive (EU) 2015/849 Art. 40 requires keeping customer due
   diligence and transaction records for five years after the business relationship ends (Member
-  States may allow or require up to five more years). So "delete me" for a closed account usually means: delete marketing data,
+  States may allow or require up to five more years); from 10 July 2027 the AML Regulation
+  (EU) 2024/1624, Art. 77, sets the same five years. So "delete me" for a closed account usually means: delete marketing data,
   restrict and keep AML records until their retention date, then delete. AML and KYC records
   are covered in [Limits, fraud and AML](../06-limits-fraud-aml/en.md) and
   [Onboarding and KYC](../07-onboarding-kyc/en.md).

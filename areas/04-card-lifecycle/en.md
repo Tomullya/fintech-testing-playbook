@@ -15,7 +15,7 @@ happens to recurring payments and holds when a card changes.
 | **PAN** (Primary Account Number) | The card number, usually 16 digits (other lengths exist) | Stored only in protected form (encrypted, tokenised, truncated or keyed hash); shown masked |
 | **BIN / IIN** | The first digits of the PAN that identify the issuer: Issuer Identification Number in ISO/IEC 7812, called BIN (Bank Identification Number) in payments. The industry is moving from 6-digit to 8-digit BINs | Not secret; used for routing and card type detection |
 | **Individual account number** | The digits between the BIN and the last digit; chosen by the issuer | Part of the PAN |
-| **Check digit** | The last digit, calculated with the **Luhn algorithm** so that typos are caught. Details are in area 09 (test data) | Part of the PAN |
+| **Check digit** | The last digit, calculated with the **Luhn algorithm** so that typos are caught. Details are in [Test data](../09-test-data/en.md) | Part of the PAN |
 | **Expiry date** | Month and year printed as `MM/YY`; it is commonly read as valid through the last day of that month, but the exact rule is set by the scheme and the issuer — test your requirement (card-wallet uses the last day of the month) | Can be stored with the PAN |
 | **CVV2 / CVC2** (card verification code; also CID, CAV2, CVN2 by brand) | 3 or 4 digits on the card, used for card-not-present payments | **Never stored after authorisation** — see below |
 | **PIN** (Personal Identification Number) | Secret code for ATMs and chip-and-PIN payments | Never stored after authorisation, not even encrypted as a PIN block |
@@ -334,8 +334,8 @@ Could be added (honest gaps — card-wallet is a simplified demo):
 ## Sources
 
 - [ISO/IEC 7812-1:2017 — Identification of issuers, numbering system](https://www.iso.org/standard/70484.html) — the standard that defines the IIN and the PAN structure.
-- [PCI SSC FAQ: Can card verification codes be stored for card-on-file or recurring transactions?](https://www.pcisecuritystandards.org/faq/articles/Frequently_Asked_Question/Can-card-verification-codes-values-be-stored-for-card-on-file-or-recurring-transactions/) — CVV2/CVC2 must not be stored after authorisation, even encrypted or with consent; issuer exception.
-- [PCI SSC FAQ: PAN masking and truncation with 8-digit BINs](https://www.pcisecuritystandards.org/faq/articles/Frequently_Asked_Question/how-can-an-entity-meet-pci-dss-requirements-for-pan-masking-and-truncation-if-it-has-migrated-to-8-digit-bins) — Requirement 3.4.1 masking (BIN and last four), 3.5.1 unreadable storage, keyed hashes after 31 March 2025.
+- [PCI SSC FAQ: Can card verification codes be stored for card-on-file or recurring transactions?](https://www.pcisecuritystandards.org/faqs/1280/) — CVV2/CVC2 must not be stored after authorisation, even encrypted or with consent; issuer exception.
+- [PCI SSC FAQ: PAN masking and truncation with 8-digit BINs](https://www.pcisecuritystandards.org/faqs/1492/) — Requirement 3.4.1 masking (BIN and last four), 3.5.1 unreadable storage, keyed hashes after 31 March 2025.
 - [PCI SSC Document Library](https://www.pcisecuritystandards.org/document_library/) — PCI DSS v4.0.1 and the Card Production and Provisioning requirements.
 - [Directive (EU) 2015/2366 (PSD2)](https://eur-lex.europa.eu/eli/dir/2015/2366/oj) — Art. 68 blocking a payment instrument, Art. 69–70 reporting loss and theft, Art. 74 payer liability.
 - [Visa Token Service](https://visa.ca/en_CA/partner-with-us/payment-technology/visa-token-service.html) — token vault, domain restrictions, issuer controls to suspend, resume or delete tokens.

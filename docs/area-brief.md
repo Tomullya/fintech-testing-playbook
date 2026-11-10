@@ -38,7 +38,7 @@ with `# <Area title>` and a 2–3 sentence intro, then exactly these level-2 hea
 5. **Typical defects** — 5–8 realistic defect patterns, each one line of "what goes wrong" + one
    line of "how to catch it". Link card-wallet bug reports where they really match.
 6. **In card-wallet** — what of this area exists in https://github.com/Tomullya/card-wallet
-   (read the repo at /Users/tamaravovk/ai-learning/card-wallet: docs/requirements, docs/qa,
+   (read the card-wallet repo: docs/requirements, docs/qa,
    wallet-api, fraud-service, tests). Link real files as
    `https://github.com/Tomullya/card-wallet/blob/main/<path>` — every linked file must exist.
    Then 2–4 bullet ideas "could be added" (honest: card-wallet is a simplified demo).

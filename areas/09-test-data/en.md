@@ -59,13 +59,14 @@ special card numbers trigger chosen outcomes. Examples from Stripe's testing pag
 
 Stripe: any future expiry date (for example `12/34`) and any 3-digit CVC (4 for American Express).
 Stripe also recommends test PaymentMethod ids such as `pm_card_visa` instead of raw numbers on
-the server, and its services agreement forbids testing in live mode with real card details.
+the server, and the Stripe Services Agreement prohibits testing in live mode with real payment method
+details.
 
 **Adyen** publishes its own list: most cards use expiry `03/2030` and CVC `737`, for example
 Visa `4111 1111 1111 1111`, Mastercard `5555 5555 5555 4444` and, for 3-D Secure 2, Mastercard
 `5454 5454 5454 5454`. A refusal reason is chosen by the request, not by the number: holder name
-`DECLINED`, `NOT_ENOUGH_BALANCE` or `CARD_EXPIRED` gives the refusal "Declined", "Not enough
-balance" or "Expired Card".
+`DECLINED`, `NOT_ENOUGH_BALANCE` or `CARD_EXPIRED` gives result code `Refused` with refusal reason
+"Refused", "Not enough balance" or "Expired Card".
 
 Important limits:
 
@@ -97,7 +98,7 @@ Brand ranges at a high level:
 - **Mastercard** uses `51`–`55` and the 2-series `2221`–`2720`: Mastercard's developer documentation
   lists its account ranges as `222100`–`272099` and `510000`–`559999`.
 - **American Express** test numbers start with `34`/`37` and are 15 digits (`3782 822463 10005`
-  at Stripe, `3714 496353 98431` at Adyen).
+  at Stripe, `3700 0000 0000 002` at Adyen).
 - Most cards are 16 digits; other lengths exist: Amex 15, Diners `3622 720627 1667` is 14 and
   UnionPay `6205 5000 0000 0000 004` is 19 in Stripe's list. Field length and formatting must
   follow the brand, not a fixed 16.
@@ -248,9 +249,12 @@ PO box, 3 address lines, non-Latin scripts. Do not use real people's addresses.
 
 - Time zones: `31 Dec 2026 23:30 UTC` is `1 Jan 2027 00:30` in Berlin — which month's statement
   and which day's limit does the payment fall into?
-- **DST** (daylight saving time): in the EU clocks go forward on 28 March 2027 (local 02:00–02:59
-  does not exist) and back on 31 October 2027 (02:00–02:59 happens twice).
-- **Leap day**: 29 Feb 2028; a card expiring `02/28` is valid through 29 Feb 2028; "one year after
+- **DST** (daylight saving time): in the EU clocks go forward on 28 March 2027 and back on
+  31 October 2027, both at 01:00 UTC. In Central European Time (Berlin) local 02:00–02:59 does not
+  exist in March and happens twice in October; in Helsinki or Lisbon the affected local hour is
+  different.
+- **Leap day**: 29 Feb 2028; a card expiring `02/28` is usually valid through 29 Feb 2028
+  (issuer rule); "one year after
   29 Feb 2028" needs a rule.
 - Month end: 31 January + 1 month; the last banking day of the month; year end.
 - Extremes: `0001-01-01`, `9999-12-31`, dates far in the past for date of birth (age 18 boundary).
@@ -422,8 +426,8 @@ Could be added (honest gaps — card-wallet is a simplified demo):
 
 ## Sources
 
-- [Stripe Docs — Testing](https://docs.stripe.com/testing) — test cards for success, declines (`insufficient_funds`, `lost_card`, `incorrect_number`), 3-D Secure; test IBANs for SEPA Direct Debit; test keys; no real card details.
-- [Adyen Docs — Test card numbers](https://docs.adyen.com/development-resources/test-cards-and-credentials/test-card-numbers) — test cards, expiry 03/2030 and CVC 737, 3DS2 cards; they work only on Adyen's test platform.
+- [Stripe Docs — Testing](https://docs.stripe.com/testing) — test cards for success, declines (`insufficient_funds`, `lost_card`, `incorrect_number`), 3-D Secure; test IBANs for SEPA Direct Debit; test keys; testing in live mode with real payment method details is prohibited.
+- [Adyen Docs — Test card numbers](https://docs.adyen.com/development-resources/test-cards-and-credentials/test-card-numbers) — test cards, expiry 03/2030 and CVC 737 for most cards (7373 for Amex), 3DS2 cards; they work only on Adyen's test platform.
 - [Adyen Docs — Testing result codes and refusal reasons](https://docs.adyen.com/development-resources/testing/result-codes) — refusals triggered by holder name (`DECLINED`, `NOT_ENOUGH_BALANCE`, `CARD_EXPIRED`).
 - [PCI SSC Document Library](https://www.pcisecuritystandards.org/document_library/) — PCI DSS v4.0.1, Requirements 6.5.5 (no live PANs in pre-production) and 6.5.6 (test data removed).
 - [Regulation (EU) 2016/679 (GDPR)](https://eur-lex.europa.eu/eli/reg/2016/679/oj) — Art. 5 minimisation, Recital 26 pseudonymised vs anonymous data.
