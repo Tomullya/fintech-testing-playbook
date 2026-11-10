@@ -18,12 +18,12 @@ places in card-wallet where the same idea is implemented and tested.
 |---|---|---|
 | 01 | [Card payment](areas/01-card-payment/en.md): authorisation, clearing, settlement, reversal, refund, chargeback | ✅ ready |
 | 02 | [Accounting for testers](areas/02-accounting/en.md): double entry, ledgers, posting rules, reconciliation, safeguarding | ✅ ready |
-| 03 | Money: ledger, reconciliation, rounding, fees, FX | coming soon |
-| 04 | Card lifecycle | coming soon |
-| 05 | Transfers: SEPA, instant payments, idempotency, cut-off times | coming soon |
-| 06 | Limits, fraud and AML | coming soon |
-| 07 | Onboarding and KYC | coming soon |
-| 08 | Regulation for testers: PSD2 / SCA / 3-D Secure, PCI DSS, GDPR | coming soon |
+| 03 | [Money: balances, rounding, fees, FX](areas/03-money/en.md) | ✅ ready |
+| 04 | [Card lifecycle: card data, statuses, reissue, tokens](areas/04-card-lifecycle/en.md) | ✅ ready |
+| 05 | [Transfers: SEPA, instant payments, R-transactions, cut-off times](areas/05-transfers/en.md) | ✅ ready |
+| 06 | [Limits, fraud and AML](areas/06-limits-fraud-aml/en.md) | ✅ ready |
+| 07 | [Onboarding and KYC](areas/07-onboarding-kyc/en.md) | ✅ ready |
+| 08 | [Regulation for testers: PSD2 / SCA / 3-D Secure, PCI DSS, GDPR](areas/08-regulation/en.md) | ✅ ready |
 | 09 | Test data: test cards, Luhn, BIN, IBAN | coming soon |
 | 10 | Fintech QA interview questions | coming soon |
 
