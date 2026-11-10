@@ -27,24 +27,6 @@ secrets.yml
 **/*secret*
 **/*password*
 
-# ══════════════════════════════════════════════
-# 📬 Postman — environments contain real tokens!
-# Only .example.json files are safe to commit
-# ══════════════════════════════════════════════
-postman/environments/*.json
-!postman/environments/*.example.json
-
-# ══════════════════════════════════════════════
-# 📊 Newman reports (generated files)
-# ══════════════════════════════════════════════
-newman/
-reports/
-
-# ══════════════════════════════════════════════
-# 💻 OS / IDE
-# ══════════════════════════════════════════════
-.DS_Store
-.idea/
-.vscode/settings.json
-*.log
-node_modules/
+# Local work notes of the AI assistant
+.superpowers/
+__pycache__/
