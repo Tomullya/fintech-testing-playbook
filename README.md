@@ -1,6 +1,6 @@
 # 💳 Fintech Testing Playbook
 
-[![Playbook check](https://github.com/Tomullya/fintech-testing-playbook/actions/workflows/check.yml/badge.svg)](https://github.com/Tomullya/fintech-testing-playbook/actions/workflows/check.yml)  ·  [Русская версия](README.ru.md)
+[![Playbook check](https://github.com/Tomullya/fintech-testing-playbook/actions/workflows/check.yml/badge.svg)](https://github.com/Tomullya/fintech-testing-playbook/actions/workflows/check.yml)  ·  [Русская версия](README.ru.md)  ·  **Website:** https://tomullya.github.io/fintech-testing-playbook/
 
 How fintech business processes work — and how to test them. Card payments, accounting,
 money movement, fraud and AML, onboarding, regulation: each explained in plain words with a

@@ -30,3 +30,6 @@ secrets.yml
 # Local work notes of the AI assistant
 .superpowers/
 __pycache__/
+
+build/
+.venv/
