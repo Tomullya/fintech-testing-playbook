@@ -38,7 +38,9 @@ extra:
     - {icon: fontawesome/brands/github, link: https://github.com/Tomullya}
 markdown_extensions:
   - tables
-  - toc: {permalink: true}
+  - toc:
+      permalink: true
+      slugify: !!python/object/apply:pymdownx.slugs.slugify {kwds: {case: lower}}
   - admonition
   - attr_list
   - pymdownx.tasklist: {custom_checkbox: true}
