@@ -1,63 +1,31 @@
-"""Build the MkDocs sources of the website from the playbook files. Standard library only.
+"""Build the website (build/site) from the playbook Markdown.
 
-Every page gets one file per language:
-  README.md / README.ru.md          -> <lang>/index.md
-  glossary.md / glossary.ru.md      -> <lang>/glossary.md
-  areas/NN-<slug>/<lang>.md         -> <lang>/NN-<slug>.md
-  docs/ru-terminology-check.md      -> <lang>/ru-terminology-check.md
-Links are rewritten for the site: links between pages of the same language stay relative,
-links to the other language go to the other site, other repository files go to GitHub.
+Pages: home (README), the 10 areas, glossary — each in EN and RU. Markdown is converted to HTML
+fragments in data/<lang>/<page>.html; data/pages.json holds titles, card texts and the table of
+contents. The static shell (web/) is copied next to it. Links between pages become routes
+(#/<page>/<anchor>); other repository files link to GitHub.
 
-Usage: python3 scripts/build_site.py build/site_src
+Usage: python3 scripts/build_site.py [out_dir]     (needs requirements-site.txt)
 """
 
+import html
+import json
 import re
 import shutil
 import sys
 from pathlib import Path, PurePosixPath
 
+import markdown
+from pymdownx.slugs import slugify
+from pymdownx.superfences import fence_div_format
+
 REPO_URL = "https://github.com/Tomullya/fintech-testing-playbook"
-EN_URL = "https://tomullya.github.io/fintech-testing-playbook/"
-RU_URL = EN_URL + "ru/"
-SITE_URL = {"en": EN_URL, "ru": RU_URL}
 LINK = re.compile(r"\]\(([^)\s]+)\)")
 CODE = re.compile(r"```.*?```|`[^`\n]*`", re.S)
+LANGS = ("en", "ru")
 
 
-def page_of(path: str):
-    """Repository file → (language, site page name), or None if it is not a site page."""
-    p = PurePosixPath(path)
-    if p.name in ("README.md", "README.ru.md") and len(p.parts) == 1:
-        return ("ru" if p.name == "README.ru.md" else "en"), "index.md"
-    if p.name in ("glossary.md", "glossary.ru.md") and len(p.parts) == 1:
-        return ("ru" if p.name == "glossary.ru.md" else "en"), "glossary.md"
-    if len(p.parts) == 3 and p.parts[0] == "areas" and p.name in ("en.md", "ru.md"):
-        return p.stem, f"{p.parts[1]}.md"
-    if str(p) == "docs/ru-terminology-check.md":
-        return None, "ru-terminology-check.md"
-    return None
-
-
-def site_url(page: str) -> str:
-    return "" if page == "index.md" else page[:-3] + "/"
-
-
-def rewrite_link(target: str, source: str, lang: str) -> str:
-    if re.match(r"^(https?:|mailto:|#)", target):
-        return target
-    path, _, anchor = target.partition("#")
-    resolved = str(PurePosixPath(*_normalise(PurePosixPath(source).parent / path)))
-    anchor = f"#{anchor}" if anchor else ""
-    page = page_of(resolved)
-    if page is None:
-        return f"{REPO_URL}/blob/main/{resolved}{anchor}"
-    page_lang, name = page
-    if page_lang in (None, lang):
-        return f"{name}{anchor}"
-    return f"{SITE_URL[page_lang]}{site_url(name)}{anchor}"
-
-
-def _normalise(p: PurePosixPath) -> list[str]:
+def _normalise(p: PurePosixPath) -> str:
     parts: list[str] = []
     for part in p.parts:
         if part == "..":
@@ -65,39 +33,134 @@ def _normalise(p: PurePosixPath) -> list[str]:
                 parts.pop()
         elif part not in (".", ""):
             parts.append(part)
-    return parts
+    return "/".join(parts)
 
 
-def rewrite(text: str, source: str, lang: str) -> str:
-    """Rewrite markdown links outside code; source is the repository path of the file."""
+def page_id(path: str):
+    """Repository path → site page id, or None if it is not a page of the site."""
+    p = PurePosixPath(path)
+    if str(p) in ("README.md", "README.ru.md"):
+        return ""
+    if str(p) in ("glossary.md", "glossary.ru.md"):
+        return "glossary"
+    if len(p.parts) == 3 and p.parts[0] == "areas" and p.name in ("en.md", "ru.md"):
+        return p.parts[1]
+    return None
+
+
+def rewrite_link(target: str, source: str) -> str:
+    if re.match(r"^(https?:|mailto:|#)", target):
+        return target
+    path, _, anchor = target.partition("#")
+    resolved = _normalise(PurePosixPath(source).parent / path)
+    page = page_id(resolved)
+    if page is None:
+        return f"{REPO_URL}/blob/main/{resolved}" + (f"#{anchor}" if anchor else "")
+    return f"#/{page}" + (f"/{anchor}" if anchor else "")
+
+
+def rewrite(text: str, source: str) -> str:
     out, last = [], 0
+    sub = lambda chunk: LINK.sub(lambda m: f"]({rewrite_link(m.group(1), source)})", chunk)  # noqa: E731
     for m in CODE.finditer(text):
-        out.append(LINK.sub(lambda l: f"]({rewrite_link(l.group(1), source, lang)})", text[last : m.start()]))
-        out.append(m.group(0))
+        out += [sub(text[last : m.start()]), m.group(0)]
         last = m.end()
-    out.append(LINK.sub(lambda l: f"]({rewrite_link(l.group(1), source, lang)})", text[last:]))
+    out.append(sub(text[last:]))
     return "".join(out)
+
+
+def to_html(text: str) -> str:
+    md = markdown.Markdown(
+        extensions=["tables", "toc", "attr_list", "admonition", "pymdownx.superfences", "pymdownx.tasklist"],
+        extension_configs={
+            "toc": {"slugify": slugify(case="lower")},
+            "pymdownx.superfences": {
+                "custom_fences": [{"name": "mermaid", "class": "mermaid", "format": fence_div_format}]
+            },
+            "pymdownx.tasklist": {"custom_checkbox": True},
+        },
+    )
+    return md.convert(text)
+
+
+def split_title(text: str) -> tuple[str, str]:
+    """('# Title' line, rest of the page)."""
+    lines = text.splitlines()
+    i = next(n for n, line in enumerate(lines) if line.startswith("# "))
+    return lines[i][2:].strip(), "\n".join(lines[i + 1 :])
+
+
+def toc_of(fragment: str) -> list[dict]:
+    return [
+        {"level": int(level), "id": anchor, "text": html.unescape(re.sub(r"<[^>]+>", "", inner)).strip()}
+        for level, anchor, inner in re.findall(r'<h([23]) id="([^"]+)">(.*?)</h\1>', fragment)
+    ]
+
+
+def home(text: str, lang: str) -> tuple[str, list[dict]]:
+    """Home fragment: intro, area cards from the README table, then the remaining sections."""
+    _, body = split_title(text)
+    body = "\n".join(line for line in body.splitlines() if "badge.svg" not in line)
+    head, _, rest = body.partition("\n## ")
+    table_heading, _, after = rest.partition("\n")
+    rows = re.findall(r"^\| (\d\d) \| \[([^\]]+)\]\(([^)]+)\)([^|]*)\|", after, re.M)
+    after = re.sub(r"^\|.*\|\s*$\n?", "", after, flags=re.M)
+    cards = []
+    for num, text, link, tail in rows:
+        route = rewrite_link(link, "README.md" if lang == "en" else "README.ru.md")
+        title, _, inner = text.partition(":")
+        desc = tail.strip().lstrip(":").strip().strip("()") or inner.strip()
+        cards.append({"num": num, "title": title.strip(), "desc": desc, "href": route})
+    grid = "".join(
+        f'<a class="card" href="{c["href"]}"><span class="card__num">{c["num"]}</span>'
+        f'<span class="card__title">{html.escape(c["title"])}</span>'
+        f'<span class="card__desc">{html.escape(c["desc"])}</span></a>'
+        for c in cards
+    )
+    fragment = (
+        to_html(rewrite(head, "README.md"))
+        + f'<h2 id="areas">{html.escape(table_heading.strip())}</h2><div class="cards">{grid}</div>'
+        + to_html(rewrite(after, "README.md"))
+    )
+    return fragment, cards
 
 
 def build(root: Path, out: Path) -> None:
     if out.exists():
         shutil.rmtree(out)
-    sources = {
-        "en": {"README.md": "index.md", "glossary.md": "glossary.md"},
-        "ru": {"README.ru.md": "index.md", "glossary.ru.md": "glossary.md"},
-    }
-    for area in sorted(p for p in (root / "areas").iterdir() if p.is_dir()):
-        for lang in ("en", "ru"):
-            sources[lang][f"areas/{area.name}/{lang}.md"] = f"{area.name}.md"
-    for lang in ("en", "ru"):
-        sources[lang]["docs/ru-terminology-check.md"] = "ru-terminology-check.md"
-        (out / lang).mkdir(parents=True)
-        for src, dst in sources[lang].items():
-            text = (root / src).read_text(encoding="utf-8")
-            (out / lang / dst).write_text(rewrite(text, src, lang), encoding="utf-8")
+    shutil.copytree(root / "web", out, ignore=shutil.ignore_patterns("tests"))
+    areas = sorted(p.name for p in (root / "areas").iterdir() if p.is_dir())
+    pages = {"home": {"id": "home", "title": {}, "toc": {}}}
+    for a in areas:
+        pages[a] = {"id": a, "num": a[:2], "title": {}, "desc": {}, "toc": {}}
+    pages["glossary"] = {"id": "glossary", "title": {}, "toc": {}}
+    for lang in LANGS:
+        (out / "data" / lang).mkdir(parents=True)
+        readme = "README.md" if lang == "en" else "README.ru.md"
+        text = (root / readme).read_text(encoding="utf-8")
+        title, _ = split_title(text)
+        fragment, cards = home(text, lang)
+        pages["home"]["title"][lang] = re.sub(r"^\W+\s*", "", title)
+        (out / "data" / lang / "home.html").write_text(fragment, encoding="utf-8")
+        for c in cards:
+            pid = c["href"][2:].split("/")[0]
+            pages[pid]["desc"][lang] = c["desc"]
+            pages[pid].setdefault("short", {})[lang] = c["title"]
+        sources = {"glossary": "glossary.md" if lang == "en" else "glossary.ru.md"}
+        sources.update({a: f"areas/{a}/{lang}.md" for a in areas})
+        for pid, src in sources.items():
+            title, body = split_title((root / src).read_text(encoding="utf-8"))
+            fragment = to_html(rewrite(body, src))
+            pages[pid]["title"][lang] = title
+            pages[pid]["toc"][lang] = toc_of(fragment)
+            (out / "data" / lang / f"{pid}.html").write_text(fragment, encoding="utf-8")
+    (out / "data" / "pages.json").write_text(
+        json.dumps({"pages": list(pages.values())}, ensure_ascii=False, indent=1), encoding="utf-8"
+    )
 
 
 if __name__ == "__main__":
     root = Path(__file__).resolve().parents[1]
-    build(root, Path(sys.argv[1]) if len(sys.argv) > 1 else root / "build" / "site_src")
-    print("site sources written")
+    target = Path(sys.argv[1]) if len(sys.argv) > 1 else root / "build" / "site"
+    build(root, target)
+    print(f"site written to {target}")

@@ -15,28 +15,30 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Checker and site generator tests
+      - name: Install site build dependencies (pinned)
+        run: pip install -r requirements-site.txt
+      - name: Checker and site builder tests
         run: python -m unittest discover -s tests -v
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Site routing tests
+        run: node --test "web/tests/*.test.mjs"
       - name: Structure, template and links
         run: python scripts/check_playbook.py
 
   site:
     needs: check
     runs-on: ubuntu-latest
-    env:
-      NO_MKDOCS_2_WARNING: "1"
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Install MkDocs Material
+      - name: Install site build dependencies (pinned)
         run: pip install -r requirements-site.txt
-      - name: Build the website (EN, then RU into /ru/; strict = broken links fail)
-        run: |
-          python scripts/build_site.py build/site_src
-          mkdocs build --strict -f mkdocs.yml
-          mkdocs build --strict -f mkdocs.ru.yml
+      - name: Build the website
+        run: python scripts/build_site.py build/site
       - uses: actions/upload-pages-artifact@v3
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         with:

@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fintech Testing Playbook</title>
+  <meta name="description" content="How fintech business processes work and how to test them: card payments, accounting, transfers, fraud and AML, KYC, regulation. EN/RU.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Unbounded:wght@500;700&display=swap">
+  <link rel="stylesheet" href="css/site.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2315233B'/%3E%3Crect x='6' y='9' width='20' height='14' rx='2.5' fill='none' stroke='%23F6F1E6' stroke-width='2.2'/%3E%3Cpath d='M6 14h20' stroke='%23E0B25C' stroke-width='2.6'/%3E%3C/svg%3E">
+</head>
+<body>
+  <a class="skip" href="#main" data-ui="skip">Skip to content</a>
+  <div class="app">
+    <aside class="rail">
+      <header class="brand">
+        <a class="brand__home" href="#/" data-testid="home-link">
+          <span class="brand__name">Fintech Testing Playbook</span>
+        </a>
+        <p class="brand__tagline" data-ui="tagline"></p>
+      </header>
+      <div class="switches">
+        <div class="lang" role="group" data-ui-aria="language">
+          <button type="button" data-lang="ru">RU</button>
+          <button type="button" data-lang="en">EN</button>
+        </div>
+        <button type="button" class="theme" data-testid="theme-toggle" aria-pressed="false">
+          <span class="theme__icon" aria-hidden="true"></span><span data-ui="theme"></span>
+        </button>
+      </div>
+      <nav class="menu" data-ui-aria="menu">
+        <ol id="menu"></ol>
+      </nav>
+      <p class="rail__links">
+        <a href="https://github.com/Tomullya/fintech-testing-playbook" data-ui="repo"></a><br>
+        <a href="https://github.com/Tomullya/card-wallet" data-ui="wallet"></a>
+      </p>
+    </aside>
+    <main id="main" class="page" tabindex="-1">
+      <header class="page__head">
+        <p class="page__kicker" id="kicker"></p>
+        <h1 class="page__title" id="title"></h1>
+      </header>
+      <div class="page__body">
+        <article class="content" id="content" aria-live="polite"></article>
+        <nav class="toc" id="toc" data-ui-aria="toc"></nav>
+      </div>
+      <footer class="footer" id="footer"></footer>
+    </main>
+  </div>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
