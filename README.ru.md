@@ -1,6 +1,6 @@
 # 💳 Fintech Testing Playbook — справочник тестировщика финтеха
 
-[![Playbook check](https://github.com/Tomullya/fintech-testing-playbook/actions/workflows/check.yml/badge.svg)](https://github.com/Tomullya/fintech-testing-playbook/actions/workflows/check.yml)  ·  [English version](README.md)  ·  **Сайт:** https://tomullya.github.io/fintech-testing-playbook/ru/
+[![Playbook check](https://github.com/Tomullya/fintech-testing-playbook/actions/workflows/check.yml/badge.svg)](https://github.com/Tomullya/fintech-testing-playbook/actions/workflows/check.yml)  ·  [English version](README.md)  ·  **Сайт:** https://tomullya.github.io/fintech-testing-playbook/
 
 Как устроены финтех-процессы и как их тестировать. Карточные платежи, бухгалтерский учёт,
 движение денег, фрод и AML, онбординг, регуляторика: каждая тема объяснена простыми словами,
