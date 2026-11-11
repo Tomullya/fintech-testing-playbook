@@ -18,7 +18,7 @@ Key terms used in the areas.
 | Asset | Актив | What the company has or is owed |
 | Audit trail | Журнал аудита | Record of who changed what, when and why |
 | Authorisation | Авторизация | Issuer's approval or decline; blocks funds but does not move them |
-| Authorised push payment (APP) scam | Мошенничество с авторизованным переводом | Customer is tricked into sending a payment themselves |
+| Authorised push payment (APP) scam | Мошенничество с переводом, совершённым с согласия клиента под влиянием обмана (социальная инженерия; APP scam) | Customer is tricked into sending a payment themselves |
 | Available balance | Доступный баланс | Ledger balance minus active holds |
 | Banking business day | Банковский рабочий день | Day a PSP and T2 are open for execution |
 | BBAN | BBAN | National part of the IBAN with a country-specific layout |
@@ -40,13 +40,13 @@ Key terms used in the areas.
 | Chargeback | Чарджбэк | Issuer-initiated return of funds under scheme dispute rules |
 | Chart of accounts | План счетов | List of all ledger accounts of a company |
 | Check digit | Контрольная цифра | Last PAN digit computed with the Luhn algorithm |
-| Clearing (presentment) | Клиринг (презентмент) | Sending final transaction records from acquirer to issuer through the scheme |
-| Control account | Контрольный счёт | GL account that must equal the subledger total |
+| Clearing (presentment) | Клиринг (presentment) | Sending final transaction records from acquirer to issuer through the scheme |
+| Control account | Синтетический счёт (control account) | GL account that must equal the subledger total |
 | Credit (Cr) | Кредит (Кт) | Right side of an entry; increases liabilities, equity and income |
 | Credit transfer | Кредитовый перевод | Payment pushed by the payer to the payee |
-| Currency exponent | Экспонента валюты | Number of minor-unit digits per ISO 4217 (EUR 2, JPY 0, BHD 3) |
+| Currency exponent | Количество десятичных знаков валюты (currency exponent) | Number of minor-unit digits per ISO 4217 (EUR 2, JPY 0, BHD 3) |
 | Cut-off | Отсечка (время отсечения) | Moment separating one posting day or period from the next |
-| Cut-off time | Время отсечения (cut-off) | Latest time an order counts as received today |
+| Cut-off time | Время отсечения (cut-off; в российских правилах — время окончания приёма распоряжений) | Latest time an order counts as received today |
 | CVV2 / CVC2 | Код проверки карты (CVV2 / CVC2) | 3–4 digit code for card-not-present payments; never stored after authorisation |
 | Data masking | Маскирование данных | Replacing real values in a production copy with fake ones |
 | Data minimisation | Минимизация данных | GDPR principle: collect only data needed for the purpose |
@@ -60,7 +60,7 @@ Key terms used in the areas.
 | Dynamic Currency Conversion (DCC) | Динамическая конвертация валюты | Merchant offers to charge in the cardholder's currency at its own rate |
 | Dynamic linking | Динамическая привязка | Authentication code tied to the exact amount and payee |
 | ECB reference rate | Референсный курс ЕЦБ | Daily euro rates published by the ECB for information |
-| EDD (enhanced due diligence) | Усиленная проверка (EDD) | Extra CDD measures for higher risk, e.g. PEPs |
+| EDD (enhanced due diligence) | Усиленные меры надлежащей проверки клиента (EDD) | Extra CDD measures for higher risk, e.g. PEPs |
 | eID / eIDAS | eID / eIDAS | Electronic identification; EU framework with assurance levels |
 | End of day / end of month (EOD/EOM) | Закрытие дня / месяца | Scheduled close: reconciliations, snapshots, revaluation, lock |
 | End-to-end ID | End-to-end ID | Payer's reference passed unchanged through the whole chain |
@@ -87,7 +87,7 @@ Key terms used in the areas.
 | Idempotency key | Ключ идемпотентности | Unique request id so a retry returns the first result |
 | Immutability | Неизменяемость | Posted entries are never edited or deleted |
 | Incremental authorisation | Инкрементальная авторизация | Additional authorisation linked to the original one |
-| Interchange fee | Интерчейндж | Fee the acquirer pays the issuer per purchase |
+| Interchange fee | Интерчейндж (межбанковское вознаграждение, МБВ) | Fee the acquirer pays the issuer per purchase |
 | ISO 20022 | ISO 20022 | Standard for financial XML messages |
 | ISO 4217 | ISO 4217 | Standard for currency codes and minor units |
 | Issuer | Эмитент | Cardholder's bank that issued the card and holds the account |
@@ -107,10 +107,10 @@ Key terms used in the areas.
 | Mark-up (FX) | Наценка (mark-up) | Margin added to a reference rate; in the EU shown as % over the ECB rate |
 | Masking | Маскирование | Showing at most BIN and last four digits of a PAN |
 | Matching key | Ключ сопоставления | Field(s) used to pair our record with the partner's in reconciliation |
-| Merchant | Мерчант (торговец) | Business that accepts card payments |
+| Merchant | Мерчант (торгово-сервисное предприятие, ТСП) | Business that accepts card payments |
 | Merchant-initiated transaction (MIT) | Платёж по инициативе мерчанта (MIT) | Payment started by the payee under a mandate, outside SCA |
 | Mid rate | Средний курс (mid rate) | Midpoint between market buy and sell rates |
-| Minor unit | Минорная единица | Smallest unit of a currency; amounts often stored as an integer of it |
+| Minor unit | Разменная денежная единица (minor unit) | Smallest unit of a currency; amounts often stored as an integer of it |
 | MOD 97-10 (ISO 7064) | MOD 97-10 (ISO 7064) | IBAN checksum: rearranged number mod 97 must equal 1 |
 | Network token | Сетевой токен | Token issued by a scheme token service, linked to the PAN in a vault |
 | Onboarding | Онбординг | The sign-up funnel from account creation to an opened, verified account |
@@ -121,7 +121,7 @@ Key terms used in the areas.
 | Payment token | Платёжный токен | Substitute number used instead of the PAN |
 | PCI DSS | PCI DSS | Card industry data security standard, current v4.0.1 |
 | Pending balance | Ожидающий баланс (pending) | Incoming funds announced but not yet spendable |
-| PEP (politically exposed person) | Публичное должностное лицо (PEP) | Person with a prominent public function, plus family and close associates |
+| PEP (politically exposed person) | Публичное должностное лицо (ПДЛ, PEP) | Person with a prominent public function, plus family and close associates |
 | Posting rule | Правило проводок | Mapping from a business event to accounts and sides |
 | Pre-authorisation | Преавторизация | Authorisation of an estimated amount when the final amount is unknown |
 | Precision / recall | Точность / полнота | Share of flagged that is fraud / share of fraud that is flagged |
@@ -134,7 +134,7 @@ Key terms used in the areas.
 | Refund | Возврат | New credit transaction from the merchant after clearing |
 | Reissue | Перевыпуск | New card for the same account (damage etc.) |
 | Renewal | Продление | New card before expiry, usually same PAN, new expiry and CVV2 |
-| Representment | Опротестование (representment) | Merchant/acquirer defends against a chargeback with evidence |
+| Representment | Повторное представление (representment) | Merchant/acquirer defends against a chargeback with evidence |
 | Revaluation | Переоценка | Re-measuring foreign-currency balances at the closing rate |
 | Reversal (card authorisation) | Отмена авторизации (reversal) | Cancels all or part of an authorisation before clearing |
 | Reversal / storno (accounting) | Сторно | Mirror entry that cancels an earlier one |
@@ -151,19 +151,19 @@ Key terms used in the areas.
 | Screening | Скрининг | Matching names against sanctions and PEP lists |
 | SCT (SEPA Credit Transfer) | SCT (SEPA-перевод) | Standard euro credit transfer, executed by D+1 on business days |
 | SCT Inst | SCT Inst (мгновенный SEPA-перевод) | Instant euro credit transfer, 24/7, within 10 seconds |
-| SDD (simplified due diligence) | Упрощённая проверка (SDD) | Lighter CDD where lower risk is assessed and documented |
+| SDD (simplified due diligence) | Упрощённые меры надлежащей проверки клиента (SDD) | Lighter CDD where lower risk is assessed and documented |
 | Seeding | Наполнение (seeding) | Script that loads a known baseline or demo data set |
 | Sensitive authentication data | Чувствительные аутентификационные данные | PCI DSS term: CVV, PIN/PIN block, full track/chip data |
 | SEPA | SEPA | Area where euro payments work the same across borders as at home |
-| Settlement | Расчёты (сеттлмент) | Actual movement of money between issuer, scheme, acquirer and merchant |
+| Settlement | Расчёты (settlement) | Actual movement of money between issuer, scheme, acquirer and merchant |
 | Shadow mode | Теневой режим | New rule records its decisions without affecting live ones |
 | Soft decline | Мягкий отказ | Issuer decline asking the merchant to retry with SCA |
 | State transition testing | Тестирование переходов состояний | Testing allowed and forbidden status changes |
 | Step-up authentication | Усиленная аутентификация (step-up) | Asking for stronger authentication before approving |
 | Strong Customer Authentication (SCA) | Строгая аутентификация клиента (SCA) | Authentication with two elements from different categories |
 | Structuring (smurfing) | Дробление (структурирование) | Splitting money into amounts just below a threshold |
-| Subledger | Субреестр (аналитический учёт) | Detailed ledger, e.g. per-customer balances |
-| Suspense / transit account | Счёт невыясненных / транзитных сумм | Temporary account for unidentified or in-flight money; must be cleared |
+| Subledger | Аналитический учёт (subledger) | Detailed ledger, e.g. per-customer balances |
+| Suspense / transit account | Счёт невыясненных / транзитных сумм (в российском плане счетов — суммы до выяснения) | Temporary account for unidentified or in-flight money; must be cleared |
 | Suspicious activity report (SAR/STR) | Сообщение о подозрительной операции | Report of suspected ML/TF to the FIU |
 | Synthetic data | Синтетические данные | Generated data with a valid format but fake content |
 | Synthetic identity | Синтетическая личность | Fake identity from invented or mixed data; in tests, a fictional profile |
@@ -171,7 +171,7 @@ Key terms used in the areas.
 | Test card number | Тестовый номер карты | PSP-published card number that triggers a set outcome only in that PSP's sandbox |
 | Test data factory / builder | Фабрика / билдер тестовых данных | Function that creates a valid test object with defaults |
 | Tiered fee | Ступенчатая комиссия | Rate depends on amount tiers |
-| Tipping-off prohibition | Запрет на информирование клиента | Ban on telling the customer about a report or investigation |
+| Tipping-off prohibition | Запрет на разглашение (tipping-off) | Ban on telling the customer about a report or investigation |
 | Transaction monitoring | Мониторинг транзакций | Scenarios over many payments to find suspicious patterns |
 | Transaction risk analysis (TRA) | Анализ риска транзакции (TRA) | Exemption based on real-time risk scoring and the PSP's fraud rate |
 | Transliteration | Транслитерация | Writing a name in another alphabet by a defined rule |

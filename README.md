@@ -49,3 +49,5 @@ Foundation, and public documentation of payment providers. Where rules differ be
 schemes or countries, the page says so. No internal information of any employer is used.
 Every area is fact-checked against its sources before publishing; `scripts/check_playbook.py`
 checks the structure, both languages and links in CI.
+
+Russian terms were checked against Bank of Russia documents, FATF translations (EAG) and Russian Wikipedia: [report](docs/ru-terminology-check.md).
